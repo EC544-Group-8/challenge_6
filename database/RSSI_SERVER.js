@@ -11,7 +11,9 @@ var XBeeAPI = new xbee_api.XBeeAPI({
 var portName = process.argv[2];
 
 var sampleDelay = 3000;
+var counter = 0;
 
+var BIN_NUMBER = '54';
 
 //Note that with the XBeeAPI parser, the serialport's "data" event will not fire when messages are received!
 portConfig = {
@@ -52,8 +54,9 @@ sp.on("open", function () {
 
 XBeeAPI.on("frame_object", function(frame) {
   if (frame.type == 144){
-    console.log("Beacon ID: " + frame.data[1] + ", RSSI: " + (frame.data[0]));
-    fs.appendFile('beacon_rssi_data.txt', '1' + ',' + frame.data[1] + ',' + frame.data[0] + '\n', function(err) {
+    counter++;
+    console.log(counter + ": Beacon ID: " + frame.data[1] + ", RSSI: " + (frame.data[0]));
+    fs.appendFile('beacon_rssi_data.txt', BIN_NUMBER + ',' + frame.data[1] + ',' + frame.data[0] + '\n', function(err) {
         if (err) {
           return console.error(err);
         }
