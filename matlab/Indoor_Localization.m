@@ -14,7 +14,7 @@ uniqueLocations = unique(T.Location);
 uniqueBeacons = unique(T.Beacon);
 dataVec = zeros(1,4);
 
-
+% Pre-allocate the table
 avgDB = table();
 avgDB.Location = zeros(length(uniqueLocations),1);
 avgDB.B1 = zeros(length(uniqueLocations),1);
@@ -37,19 +37,61 @@ end
 writetable(avgDB,'avgDB.txt','Delimiter',' ')
 
 % k-nn look up within average database
-sample = [43,64,75,63];
+sample = [56,59,66,77];
 E_vec = zeros(1,height(avgDB));
+storeAsVec = false;
+min_dist = 10000;
 for i = 1:height(avgDB)
     E_dist = 0;
     for j = 1:4
         var = sprintf('B%d',j);
         E_dist = E_dist + (sample(j) - avgDB.(var)(i))^2;
     end
-    E_vec(i) = E_dist;
+    if(storeAsVec)
+        E_vec(i) = E_dist;
+    elseif(E_dist < min_dist)
+        min_dist = E_dist;
+        our_position = i;
+    end
 end
-[M,I] = min(E_vec);
 
-% determine the actual position
-our_position = avgDB.Location(I)
+if(storeAsVec)
+    [M,I] = min(E_vec);
+
+    % determine the actual position
+    our_position = avgDB.Location(I);
         
+end
+
+% display the result of average database
+disp(our_position)
+
+% knn through the RAW database
+min_total_E_dist = 10000;
+for i = 1:length(uniqueLocations)
+    total_E_dist = 0;
+    for j = 1:4
+        RSSI_vec = T.RSSI(T.Location == i & T.Beacon == j);
+        min_E_dist = 10000;
+        for k = 1:length(RSSI_vec)
+            E_dist = (sample(j) - RSSI_vec(k))^2;
+            if(E_dist < min_E_dist)
+                min_E_dist = E_dist;
+            end
+        end
+        total_E_dist = total_E_dist + min_E_dist;
+    end
+    if(total_E_dist < min_total_E_dist)
+        min_total_E_dist = total_E_dist;
+        our_position = i;
+    end
+end
+
+% display the result of the RAW database
+disp(our_position)
+
+            
+
+
+
 
