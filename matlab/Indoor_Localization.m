@@ -37,6 +37,10 @@ end
 % save table to excel sheet
 writetable(avgDB,'avgDB.txt','Delimiter',' ')
 
+% sample
+sample = [56,59,66,77];
+
+tic
 % vectorized knn position from average database 
 [min_val,our_position] = min(sum((table2array(avgDB(:,2:5)) - repmat(sample,height(avgDB),1)).^2,2)');
 
@@ -61,7 +65,7 @@ end
 
 % display the result of the RAW database
 disp(our_position)
-
+toc
 
 
 
@@ -73,6 +77,7 @@ disp(our_position)
 
 % knn through the RAW database
 %{
+tic
 min_total_E_dist = 10000;
 for i = 1:length(uniqueLocations)
     total_E_dist = 0;
@@ -122,11 +127,12 @@ if(storeAsVec)
 
     % determine the actual position
     our_position = avgDB.Location(I);
-        
+       
 end
-%}
 
-            
+disp(our_position)
+toc
+%}       
 
 
 
