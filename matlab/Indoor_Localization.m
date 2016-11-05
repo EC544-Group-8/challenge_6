@@ -2,6 +2,7 @@
 
 % Generate the path to the file
 addpath(genpath('/Users/connormccann/Documents/BU/Fall_2016/EC544/EC544_demos/challenge_6/database'))
+format shortg
 
 % Read the CSV into a table
 T = readtable('beacon_rssi_data.txt','Delimiter',',','ReadVariableNames',false);
@@ -36,6 +37,67 @@ end
 % save table to excel sheet
 writetable(avgDB,'avgDB.txt','Delimiter',' ')
 
+% vectorized knn position from average database 
+[min_val,our_position] = min(sum((table2array(avgDB(:,2:5)) - repmat(sample,height(avgDB),1)).^2,2)');
+
+% display the result of average database
+disp(our_position)
+
+% knn through the RAW database
+min_total_E_dist = 10000;
+for i = 1:length(uniqueLocations)
+    total_E_dist = 0;
+    for j = 1:4
+        RSSI_vec = T.RSSI(T.Location == i & T.Beacon == j);
+        E_dist = (sample(j) - RSSI_vec).^2;
+        [min_E_dist,I] = min(E_dist);
+        total_E_dist = total_E_dist + min_E_dist;
+    end
+    if(total_E_dist < min_total_E_dist)
+        min_total_E_dist = total_E_dist;
+        our_position = i;
+    end
+end
+
+% display the result of the RAW database
+disp(our_position)
+
+
+
+
+
+
+
+
+
+
+% knn through the RAW database
+%{
+min_total_E_dist = 10000;
+for i = 1:length(uniqueLocations)
+    total_E_dist = 0;
+    for j = 1:4
+        RSSI_vec = T.RSSI(T.Location == i & T.Beacon == j);
+        min_E_dist = 10000;
+        for k = 1:length(RSSI_vec)
+            E_dist = (sample(j) - RSSI_vec(k))^2;
+            if(E_dist < min_E_dist)
+                min_E_dist = E_dist;
+            end
+        end
+        total_E_dist = total_E_dist + min_E_dist;
+    end
+    if(total_E_dist < min_total_E_dist)
+        min_total_E_dist = total_E_dist;
+        our_position = i;
+    end
+end
+
+% display the result of the RAW database
+disp(our_position)
+
+
+
 % k-nn look up within average database
 sample = [56,59,66,77];
 E_vec = zeros(1,height(avgDB));
@@ -62,33 +124,7 @@ if(storeAsVec)
     our_position = avgDB.Location(I);
         
 end
-
-% display the result of average database
-disp(our_position)
-
-% knn through the RAW database
-min_total_E_dist = 10000;
-for i = 1:length(uniqueLocations)
-    total_E_dist = 0;
-    for j = 1:4
-        RSSI_vec = T.RSSI(T.Location == i & T.Beacon == j);
-        min_E_dist = 10000;
-        for k = 1:length(RSSI_vec)
-            E_dist = (sample(j) - RSSI_vec(k))^2;
-            if(E_dist < min_E_dist)
-                min_E_dist = E_dist;
-            end
-        end
-        total_E_dist = total_E_dist + min_E_dist;
-    end
-    if(total_E_dist < min_total_E_dist)
-        min_total_E_dist = total_E_dist;
-        our_position = i;
-    end
-end
-
-% display the result of the RAW database
-disp(our_position)
+%}
 
             
 
