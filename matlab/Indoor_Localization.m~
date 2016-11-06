@@ -38,7 +38,7 @@ end
 writetable(avgDB,'avgDB.txt','Delimiter',' ')
 
 % sample
-sample = [38,63,70,45];
+sample = [,84,61,42];
 
 tic
 % vectorized knn position from average database 
