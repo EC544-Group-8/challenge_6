@@ -1,7 +1,7 @@
 % Indoor tracking script
 
 % Generate the path to the file
-addpath(genpath('/Users/connormccann/Documents/BU/Fall_2016/EC544/EC544_demos/challenge_6/database'))
+%addpath(genpath('/Users/connormccann/Documents/BU/Fall_2016/EC544/EC544_demos/challenge_6/database'))
 format shortg
 
 % Read the CSV into a table
@@ -38,7 +38,7 @@ end
 writetable(avgDB,'avgDB.txt','Delimiter',' ')
 
 % sample
-sample = [38,63,70,45];
+sample = [69,37,53,82];
 
 tic
 % vectorized knn position from average database 
