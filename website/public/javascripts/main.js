@@ -11,7 +11,7 @@ $(document).ready(function () {
         
         $.get('/get_location', function(bin_id) {
             console.log('bin id: '+bin_id);
-            var new_image_path = "/images/fourthfloor"+bin_id+".png";
+            var new_image_path = "/images/bin"+bin_id+".png";
             console.log(new_image_path);
             floor_plan.attr("src", new_image_path);
         });
