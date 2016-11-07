@@ -9,6 +9,19 @@ portConfig = {
 };
 var sp = new SerialPort.SerialPort(portName, portConfig);
 
+// ---- Brought over from "/matlab/talk_to_matlab.js" ---- //
+
+// client = require('../matlab/client');
+// host='localhost';
+// port=3000;
+// c = new client(host, port);
+// c.receive();
+
+// c.send('This is Node\n');
+
+// ---- END "/matlab/talk_to_matlab.js" ---- //
+
+
 app.use(express.static(__dirname + '/public'));
 
 app.get('/', function(req, res){
