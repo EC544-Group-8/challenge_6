@@ -43,7 +43,7 @@ app.get('/get_location', function(req, res){
 	setTimeout(function() {
 		console.log('ok waited 1/2 sec...');
 		// Let the main.js know that the AJAX worked
-		bin_id = '22';
+		bin_id = '24'; // TODO! Update this with the actual values
 		res.send(bin_id);
 	},500);
 });
