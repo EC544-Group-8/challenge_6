@@ -28,6 +28,8 @@ var sp = new SerialPort.SerialPort(portName, portConfig);
 var host='localhost';
 var port=5000;
 var c = new client(host, port);
+
+// Begin the function that handles the receipt of data from Matlab, and adds it to a queue
 c.receive();
 
 app.use(express.static(__dirname + '/public'));
