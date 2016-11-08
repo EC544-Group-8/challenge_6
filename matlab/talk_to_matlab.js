@@ -4,4 +4,4 @@ port=5000;
 c = new client(host, port);
 c.receive();
 
-c.send('This is Node bitch\n');
+c.send('This is Node\n');
