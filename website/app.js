@@ -117,10 +117,6 @@ XBeeAPI.on("frame_object", function(frame) {
 // For getting the most recent location of the moving device
 app.get('/get_location', function(req, res){
 	// Send the current bin_id back to the view
-	console.log("Client is what?");
-	console.log(c);
-	console.log("Client queue is what?");
-	console.log(c.queue);
 	res.send(c.queue[c.queue.length - 1]);
 });
 

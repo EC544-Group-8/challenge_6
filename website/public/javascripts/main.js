@@ -8,17 +8,11 @@ $(document).ready(function () {
     // Function to change the location
     function update_location(event) {
         // Go to the route on the server that is designed to change the motion on the particle
-        console.log('Trying to get current location');
-        // fake bin loop for testing, reset after 54th bin
-        if(fake_bin_id++ >= 54){
-            fake_bin_id = 1;
-        }
+        // console.log('Trying to get current location');
         
         $.get('/get_location', function(bin_id) {
             console.log('bin id: '+bin_id);
-            // var new_image_path = "/images/bin"+bin_id+".png"; // This will be the bin id from matlab
-            var new_image_path = "/images/bin"+fake_bin_id+".png"; // TODO! remove this fake line after testing done
-            console.log(new_image_path);
+            var new_image_path = "/images/bin"+bin_id+".png"; // This will be the bin id from matlab
             floor_plan.attr("src", new_image_path);
         });
     }
