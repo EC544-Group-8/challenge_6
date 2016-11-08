@@ -2,6 +2,8 @@
 
 % Generate the path to the file
 %addpath(genpath('/Users/connormccann/Documents/BU/Fall_2016/EC544/EC544_demos/challenge_6/database'))
+addpath(genpath('../database'))
+
 format shortg
 
 % Read the CSV into a table
