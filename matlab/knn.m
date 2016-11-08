@@ -30,9 +30,8 @@ end
 meas(1,:)=[]
 species(1,:)=[]
 
-
 % make knn model
-Mdl = fitcknn(meas,species,'NumNeighbors',5')
+Mdl = fitcknn(meas,species,'NumNeighbors',5)
 
 % predict a value
 m1 = 78;

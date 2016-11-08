@@ -95,7 +95,7 @@ XBeeAPI.on("frame_object", function(frame) {
   }
 });
 
-setInterval(function(){c.send('59,60,62,74'); /*console.log('sent');*/},3000);
+//setInterval(function(){c.send('59,60,62,74'); /*console.log('sent');*/},3000);
 
 
 

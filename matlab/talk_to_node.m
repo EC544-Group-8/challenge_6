@@ -6,8 +6,9 @@ s.send('This is MatLab');
 
 while(1)
     if(~s.Q.isempty())
-        pos = s.findLocation(s.Q.dequeue());
-        disp(pos)
-        s.send(num2str(pos));
+        [p1,p2,p3] = s.findLocation(s.Q.back());
+        %disp(s.Q.dequeue())
+        disp([p1,p2,p3])
+        %s.send(num2str());
     end
 end
