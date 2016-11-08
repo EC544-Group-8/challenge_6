@@ -70,6 +70,8 @@ sp.on("open", function () {
 // ------------ END - SEND RSSI REQUEST FROM COORDINATOR ------------ //
 
 
+
+
 // --------- BEGIN - HANDLE RSSI VALUES FROM THE NODES ---------- //
 
 // Instantiate the beacon data array
@@ -105,22 +107,7 @@ XBeeAPI.on("frame_object", function(frame) {
 // ------------ END - HANDLE RSSI VALUES FROM THE NODES ------------ //
 
 
-// ------------ BEGIN - HANDLE MATLAB RESULTS ------------ //
 
-var bin_id = '0';
-
-// Receive matlab results of location, and update the global variable
-// sp.on("open", function () {
-//   console.log('open');
-//   sp.on('data', function(data) {
-//     console.log('data received: ');
-//     console.log(data[0]);
-//     bin_id = data[0];
-//   });
-// });
-
-
-// ------------ END - HANDLE MATLAB RESULTS ------------ //
 
 
 // --------- DEFINE AJAX POST REQUESTS HERE --------- //
@@ -128,6 +115,10 @@ var bin_id = '0';
 // For getting the most recent location of the moving device
 app.get('/get_location', function(req, res){
 	// Send the current bin_id back to the view
-	res.send(bin_id);
+	console.log("Client is what?");
+	console.log(c);
+	console.log("Client queue is what?");
+	console.log(c.queue);
+	res.send(c.queue[c.queue.length - 1]);
 });
 
