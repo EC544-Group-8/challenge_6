@@ -16,14 +16,15 @@ var XBeeAPI = new xbee_api.XBeeAPI({
     api_mode: 2,      // [1, 2]; 1 is default, 2 is with escaping (set ATAP=2) 
 });
 
-var portName = process.argv[2],
+//var portName = process.argv[2],******************************************************************************
 //Note that with the XBeeAPI parser, the serialport's "data" event will not fire when messages are received!
 portConfig = {
     baudRate: 9600,
     parser: XBeeAPI.rawParser()
 
 };
-var sp = new SerialPort.SerialPort(portName, portConfig);
+
+//var sp = new SerialPort.SerialPort(portName, portConfig);*****************************************************
 
 var host='localhost';
 var port=5000;
@@ -57,17 +58,17 @@ var RSSIRequestPacket = {
 };
 
 var requestRSSI = function(){
-  sp.write(XBeeAPI.buildFrame(RSSIRequestPacket));
+  //sp.write(XBeeAPI.buildFrame(RSSIRequestPacket));**********************************************************
 };
 
 
 var sampleDelay = 3000;
-// Every "sampleDelay" seconds, gather new RSSI values
-sp.on("open", function () {
-  console.log('open');
-  requestRSSI();
-  setInterval(requestRSSI, sampleDelay);
-});
+// Every "sampleDelay" seconds, gather new RSSI values********************************************************
+// sp.on("open", function () {
+//   console.log('open');
+//   requestRSSI();
+//   setInterval(requestRSSI, sampleDelay);
+// });
 
 // ------------ END - SEND RSSI REQUEST FROM COORDINATOR ------------ //
 
@@ -120,3 +121,5 @@ app.get('/get_location', function(req, res){
 	res.send(c.queue[c.queue.length - 1]);
 });
 
+setInterval(function(){c.send('[30,40,50,60]'); console.log('data sent');},2000);
+setInterval(function(){c.send('[60,51,66,81]'); console.log('data sent');},5000);

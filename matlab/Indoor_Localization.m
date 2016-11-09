@@ -7,7 +7,7 @@
 format shortg
 
 % Read the CSV into a table
-T = readtable('beacon_rssi_data.txt','Delimiter',',','ReadVariableNames',false);
+T = readtable('../database/beacon_rssi_data.txt','Delimiter',',','ReadVariableNames',false);
 
 % Change the variable (column) names
 T.Properties.VariableNames = {'Location','Beacon','RSSI'};
