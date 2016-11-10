@@ -76,9 +76,10 @@ s.send('This is MatLab');
 
 
 %==========================================================================
-%                        Communicat with Node.js
+%                        Communicate with Node.js
 %==========================================================================
 Hist_Q = Queue();
+max_pos_error = 2;
 while(1)
     % if queue is not empty
     if(~s.Q.isempty())
@@ -90,11 +91,13 @@ while(1)
         if(~Hist_Q.isempty())
             lastLoc = Hist_Q.back();
             delta_pos = abs(P1 - lastLoc);
-            if(delta_pos <= 2 || delta_pos >= 4) % We trust this range 
+            if(delta_pos <= max_pos_error) % We trust this range 
                  Hist_Q.enqueue(P1);
                  data = P1;
+				 max_pos_error = 2; % reset range
             else
                 data = lastLoc; % otherwise send the historic data instead
+				max_pos_error = max_pos_error + 1; % extend range the longer we go without a trusted range
             end
         else
             Hist_Q.enqueue(P1); % this is for the first runtime condition 
