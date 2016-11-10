@@ -79,8 +79,9 @@ s.send('This is MatLab');
 %                        Communicate with Node.js
 %==========================================================================
 Hist_Q = Queue();
-original_max_pos_error = 1 % change this to tune algorithm
+original_max_pos_error = 2 % change this to tune algorithm
 max_pos_error = original_max_pos_error
+max_tries = 3;
 while(1)
     % if queue is not empty
     if(~s.Q.isempty())
@@ -98,7 +99,7 @@ while(1)
 				 max_pos_error = original_max_pos_error; % reset range
             else
                 data = lastLoc; % otherwise send the historic data instead
-				max_pos_error = max_pos_error + 1; % extend range the longer we go without a trusted range
+				max_pos_error = max_pos_error + delta_pos/max_tries; % extend range the longer we go without a trusted range
             end
         else
             Hist_Q.enqueue(P1); % this is for the first runtime condition 
