@@ -78,34 +78,30 @@ s.send('This is MatLab');
 %==========================================================================
 %                        Communicat with Node.js
 %==========================================================================
-historic = buffer(0);
+Hist_Q = Queue();
 while(1)
     % if queue is not empty
     if(~s.Q.isempty())
         
-        % estimate location with knns
-        [P1,P2] = s.findLocation(s.Q.dequeue());
-        % dispaly on our console here
-        disp([P1,P2])
+        [P1,P2] = s.findLocation(s.Q.dequeue()); % estimate location with knns
+        disp([P1,P2]) % dispaly on our console here
         
         % check if we trust the new location
-        if(~isempty(find(historic)))
-            lastLoc = historic(1);
+        if(~Hist_Q.isempty())
+            lastLoc = Hist_Q.back();
             delta_pos = abs(P1 - lastLoc);
-            if(delta_pos <= 2 || delta_pos >= 5) % We trust this range
-                 historic = buffer(P1); 
+            if(delta_pos <= 2 || delta_pos >= 4) % We trust this range 
+                 Hist_Q.enqueue(P1);
                  data = P1;
             else
                 data = lastLoc; % otherwise send the historic data instead
             end
         else
-            % this is for the first runtime condition 
-            historic = buffer(P1); 
+            Hist_Q.enqueue(P1); % this is for the first runtime condition 
             data = P1;
         end
         
-        % send the data we trust
-        s.send(num2str(data));
+        s.send(num2str(data)); % send the data we trust
            
     end
 end
