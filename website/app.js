@@ -4,8 +4,8 @@ var app = express();
 var http = require('http').Server(app);
 
 // portConfig = {
-//	baudRate: 9600,
-//	parser: SerialPort.parsers.readline("\n")
+// 	baudRate: 9600,
+// 	parser: SerialPort.parsers.readline("\n")
 // };
 
 // ---- Brought over from "/matlab/RSSI_SERVER.js" ---- //
@@ -16,14 +16,15 @@ var XBeeAPI = new xbee_api.XBeeAPI({
     api_mode: 2,      // [1, 2]; 1 is default, 2 is with escaping (set ATAP=2) 
 });
 
-var portName = process.argv[2],
+var portName = process.argv[2];//******************************************************************************
 //Note that with the XBeeAPI parser, the serialport's "data" event will not fire when messages are received!
 portConfig = {
     baudRate: 9600,
     parser: XBeeAPI.rawParser()
 
 };
-var sp = new SerialPort.SerialPort(portName, portConfig);
+
+var sp = new SerialPort.SerialPort(portName, portConfig);//*****************************************************
 
 var host='localhost';
 var port=5000;
@@ -57,12 +58,12 @@ var RSSIRequestPacket = {
 };
 
 var requestRSSI = function(){
-  sp.write(XBeeAPI.buildFrame(RSSIRequestPacket));
+  sp.write(XBeeAPI.buildFrame(RSSIRequestPacket));//**********************************************************
 };
 
 
 var sampleDelay = 3000;
-// Every "sampleDelay" seconds, gather new RSSI values
+// Every "sampleDelay" seconds, gather new RSSI values********************************************************
 sp.on("open", function () {
   console.log('open');
   requestRSSI();
@@ -120,3 +121,8 @@ app.get('/get_location', function(req, res){
 	res.send(c.queue[c.queue.length - 1]);
 });
 
+// setInterval(function(){c.send('[52,65,75,65]'); console.log('data sent');},5000);   // 7
+// setInterval(function(){c.send('[30,40,50,60]'); console.log('data sent');},6000);   // 9
+// setInterval(function(){c.send('[60,51,66,81]'); console.log('data sent');},7000);   // 13
+// setInterval(function(){c.send('[60,51,66,81]'); console.log('data sent');},8000);   // 13
+// setInterval(function(){c.send('[60,51,66,81]'); console.log('data sent');},9000);   // 13
